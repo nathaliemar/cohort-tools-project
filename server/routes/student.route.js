@@ -9,8 +9,7 @@ router.get("/api/students", async (req, res) => {
     console.log("Retrieved students", students);
     res.status(200).json(students);
   } catch (error) {
-    console.log("Error while retrieving students", error);
-    res.status(500).json({ error: "Failed to retrieve student" });
+    next(error);
   }
 });
 
@@ -33,8 +32,7 @@ router.post("/api/students/", async (req, res) => {
     console.log("New student created!", newStudent);
     res.status(201).json(newStudent);
   } catch (error) {
-    console.log("Error while creating user", error);
-    res.status(500).json({ error: "Failed to create student" });
+    next(error);
   }
 });
 
@@ -48,8 +46,7 @@ router.get("/api/students/cohort/:cohortId", async (req, res) => {
     console.log("Retrieved students", foundStudents);
     res.status(200).json(foundStudents);
   } catch (error) {
-    console.log("Error retrieving students", error);
-    res.status(500).json({ error: "Failed to retrieve students" });
+    next(error);
   }
 });
 
@@ -61,8 +58,7 @@ router.get("/api/students/:studentId", async (req, res) => {
     console.log("Student retrieved", foundStudent);
     res.status(200).json(foundStudent);
   } catch (error) {
-    console.log("Error retrieving student", error);
-    res.status(500).json({ error: "Failed to retrieve student" });
+    next(error);
   }
 });
 
@@ -78,8 +74,7 @@ router.put("/api/students/:studentId", async (req, res) => {
     console.log("Student was updated", updatedStudent);
     res.status(200).json(updatedStudent);
   } catch (error) {
-    console.log("Error while updating student", error);
-    res.status(500).json({ error: "Failed to update student" });
+    next(error);
   }
 });
 
@@ -90,8 +85,7 @@ router.delete("/api/students/:studentId", async (req, res) => {
     await Student.findByIdAndDelete(studentId);
     res.status(204).send();
   } catch (error) {
-    console.log("Error deleting student", error);
-    res.status(500).json({ error: "Failed to delete user" });
+    next(error);
   }
 });
 

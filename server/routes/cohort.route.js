@@ -33,8 +33,7 @@ router.get("/api/cohorts/:cohortId", async (req, res) => {
     console.log("Cohort retrieved", foundCohort);
     res.status(200).json(foundCohort);
   } catch (error) {
-    console.log("Error retrieving cohort", error);
-    res.status(500).json({ error: "Could not retrieve cohort" });
+    next(error);
   }
 });
 //POST cohort
@@ -56,8 +55,7 @@ router.post("/api/cohorts", async (req, res) => {
     console.log("New cohort created", newCohort);
     res.status(201).json(newCohort);
   } catch (error) {
-    console.log("Error when creating cohort", error);
-    res.status(500).json({ error: "Could not create cohort" });
+    next(error);
   }
 });
 //PUT cohort
@@ -70,8 +68,7 @@ router.put("/api/cohorts/:cohortId", async (req, res) => {
     console.log("Cohort updated", updatedCohort);
     res.status(200).json(updatedCohort);
   } catch (error) {
-    console.log("Error updating cohort", error);
-    res.status(500).json({ error: "Failed to update cohort" });
+    next(error);
   }
 });
 
@@ -82,8 +79,7 @@ router.delete("/api/cohorts/:cohortId", async (req, res) => {
     await Cohort.findByIdAndDelete(cohortId);
     res.status(204).send();
   } catch (error) {
-    console.log("Error deleting cohort", error);
-    res.status(500).json({ error: "Failed to delete cohort" });
+    next(error);
   }
 });
 
