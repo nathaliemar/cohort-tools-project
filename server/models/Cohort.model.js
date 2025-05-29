@@ -31,6 +31,7 @@ const cohortSchema = new Schema({
   programManager: { type: String, required: true },
   leadTeacher: { type: String, required: true },
   totalHours: { type: Number, default: 360 },
+  // students:[ { type: Schema.Types.ObjectId, ref: "Student" }],
 });
 
 //CREATE MODEL
