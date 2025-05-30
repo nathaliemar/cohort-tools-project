@@ -1,28 +1,157 @@
 /**
  * @swagger
- * /api/students:
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ */
+/**
+ * @swagger
+ * tags:
+ *   - name: Cohorts
+ *     description: Cohort management
+ *   - name: Students
+ *     description: Student management
+ */
+
+/**
+ * @swagger
+ * /api/cohorts:
  *   get:
- *     summary: Get all students
- *     description: Retrieves all available students from the database
- *     tags:
- *      - Students
+ *     summary: Get all cohorts
+ *     tags: [Cohorts]
  *     responses:
  *       200:
- *         description: A list of all students
+ *         description: List of all cohorts
+ *       500:
+ *         description: Server error
+ *   post:
+ *     summary: Create a new cohort
+ *     tags: [Cohorts]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - cohortSlug
+ *               - cohortName
+ *               - program
+ *             properties:
+ *               cohortSlug:
+ *                 type: string
+ *               cohortName:
+ *                 type: string
+ *               program:
+ *                 type: string
+ *               format:
+ *                 type: string
+ *               campus:
+ *                 type: string
+ *               startDate:
+ *                 type: string
+ *                 format: date
+ *               endDate:
+ *                 type: string
+ *                 format: date
+ *               inProgress:
+ *                 type: boolean
+ *               programManager:
+ *                 type: string
+ *               leadTeacher:
+ *                 type: string
+ *               totalHours:
+ *                 type: number
+ *     responses:
+ *       201:
+ *         description: Cohort created successfully
+ *       400:
+ *         description: Invalid input
  *       500:
  *         description: Server error
  */
 
-//EXAMPLE
+/**
+ * @swagger
+ * /api/cohorts/{cohortId}:
+ *   get:
+ *     summary: Get a cohort by ID
+ *     tags: [Cohorts]
+ *     parameters:
+ *       - in: path
+ *         name: cohortId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Cohort ID
+ *     responses:
+ *       200:
+ *         description: Cohort found
+ *       404:
+ *         description: Cohort not found
+ *       500:
+ *         description: Server error
+ *   put:
+ *     summary: Update a cohort by ID
+ *     tags: [Cohorts]
+ *     parameters:
+ *       - in: path
+ *         name: cohortId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Cohort ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: Cohort updated
+ *       404:
+ *         description: Cohort not found
+ *       500:
+ *         description: Server error
+ *   delete:
+ *     summary: Delete a cohort by ID
+ *     tags: [Cohorts]
+ *     parameters:
+ *       - in: path
+ *         name: cohortId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Cohort ID
+ *     responses:
+ *       204:
+ *         description: Cohort deleted
+ *       404:
+ *         description: Cohort not found
+ *       500:
+ *         description: Server error
+ */
+
 /**
  * @swagger
  * /api/students:
+ *   get:
+ *     summary: Get all students
+ *     tags: [Students]
+ *     responses:
+ *       200:
+ *         description: List of all students
+ *       500:
+ *         description: Server error
  *   post:
  *     summary: Create a new student
- *     description: Adds a new student to the database.
- *     tags:
- *       - Students
- *     operationId: createStudent
+ *     tags: [Students]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -37,55 +166,121 @@
  *             properties:
  *               firstName:
  *                 type: string
- *                 example: John
  *               lastName:
  *                 type: string
- *                 example: Doe
  *               email:
  *                 type: string
- *                 format: email
- *                 example: john.doe@example.com
  *               phone:
  *                 type: string
- *                 example: "+123456789"
  *               linkedinUrl:
  *                 type: string
- *                 example: "https://linkedin.com/in/johndoe"
  *               languages:
  *                 type: array
  *                 items:
  *                   type: string
- *                 example: ["English", "Spanish"]
  *               program:
  *                 type: string
- *                 enum: [Web Dev, UX/UI, Data Analytics, Cybersecurity]
- *                 example: Web Dev
  *               background:
  *                 type: string
- *                 example: "Marketing"
  *               image:
  *                 type: string
- *                 example: "https://imgur.com/r8bo8u7"
  *               cohort:
  *                 type: string
- *                 description: Cohort ObjectId
- *                 example: "60c72b2f9b1e8e5f88d8b456"
  *               projects:
  *                 type: array
  *                 items:
  *                   type: string
- *                 example: []
  *     responses:
  *       201:
  *         description: Student created successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Student'
  *       400:
  *         description: Invalid input
  *       500:
  *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/students/cohort/{cohortId}:
+ *   get:
+ *     summary: Get all students in a cohort
+ *     tags: [Students]
+ *     parameters:
+ *       - in: path
+ *         name: cohortId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Cohort ID
+ *     responses:
+ *       200:
+ *         description: List of students in the cohort
+ *       404:
+ *         description: Cohort or students not found
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /api/students/{studentId}:
+ *   get:
+ *     summary: Get a student by ID
+ *     tags: [Students]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: studentId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Student ID
+ *     responses:
+ *       200:
+ *         description: Student found
+ *       404:
+ *         description: Student not found
+ *       500:
+ *         description: Server error
+ *   put:
+ *     summary: Update a student by ID
+ *     tags: [Students]
+ *     parameters:
+ *       - in: path
+ *         name: studentId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Student ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: Student updated
+ *       404:
+ *         description: Student not found
+ *       500:
+ *         description: Server error
+ *   delete:
+ *     summary: Delete a student by ID
+ *     tags: [Students]
+ *     parameters:
+ *       - in: path
+ *         name: studentId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Student ID
+ *     responses:
+ *       204:
+ *         description: Student deleted
+ *       404:
+ *         description: Student not found
+ *       500:
+ *         description: Server error
  */
