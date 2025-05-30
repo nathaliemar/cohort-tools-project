@@ -8,7 +8,7 @@ const {
   errorHandler,
   notFoundHandler,
 } = require("./config/middleware.config");
-
+require("dotenv").config();
 // INITIALIZE EXPRESS APP - https://expressjs.com/en/4x/api.html#express
 const app = express();
 
@@ -24,8 +24,10 @@ mongoose
 //ROUTES
 const cohortRoute = require("./routes/cohort.route");
 const studentRoute = require("./routes/student.route");
+const authRoute = require("./routes/auth.route");
 app.use("/", cohortRoute);
 app.use("/", studentRoute);
+app.use("/", authRoute);
 
 //!SWAGGER BASICS
 

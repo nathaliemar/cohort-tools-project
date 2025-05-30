@@ -1,6 +1,7 @@
 const express = require("express");
 const Student = require("../models/Student.model");
 const router = express.Router();
+const { isAuthenticated } = require("../config/middleware.config");
 
 //GET Students
 router.get("/api/students", async (req, res) => {
@@ -14,7 +15,7 @@ router.get("/api/students", async (req, res) => {
 });
 
 //POST student
-router.post("/api/students/", async (req, res) => {
+router.post("/api/students/", isAuthenticated, async (req, res) => {
   try {
     const newStudent = await Student.create({
       firstName: req.body.firstName,
@@ -50,8 +51,9 @@ router.get("/api/students/cohort/:cohortId", async (req, res) => {
   }
 });
 
+//!THE ONLY PROTECTED ROUTE
 //GET /api/students/:studentId - Retrieves a specific student by id
-router.get("/api/students/:studentId", async (req, res) => {
+router.get("/api/students/:studentId", isAuthenticated, async (req, res) => {
   const { studentId } = req.params;
   try {
     const foundStudent = await Student.findById(studentId).populate("cohort"); //add actual cohort details
