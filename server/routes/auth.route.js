@@ -7,7 +7,7 @@ const router = express.Router();
 const { isAuthenticated } = require("../config/middleware.config");
 
 // POST /auth/signup
-router.post("/api/auth/signup", async (req, res) => {
+router.post("/auth/signup", async (req, res) => {
   const { email, password, name } = req.body;
   //Check if any are an empty string
   if (email === "" || password === "" || name === "") {
@@ -57,7 +57,7 @@ router.post("/api/auth/signup", async (req, res) => {
 });
 
 // POST /auth/login
-router.post("/api/auth/login", async (req, res) => {
+router.post("/auth/login", async (req, res) => {
   const { email, password } = req.body;
 
   //check if email or password are empty
@@ -101,7 +101,7 @@ router.post("/api/auth/login", async (req, res) => {
 });
 
 //GET auth/verify
-router.get("/api/auth/verify", isAuthenticated, (req, res) => {
+router.get("/auth/verify", isAuthenticated, (req, res) => {
   //If valid token, payload gets decoded by isAuth middleware and provided in payload
   console.log(`req.payload`, req.payload);
   res.status(200).json(req.payload);

@@ -25,9 +25,11 @@ mongoose
 const cohortRoute = require("./routes/cohort.route");
 const studentRoute = require("./routes/student.route");
 const authRoute = require("./routes/auth.route");
+const userRoute = require("./routes/user.route");
 app.use("/", cohortRoute);
 app.use("/", studentRoute);
 app.use("/", authRoute);
+app.use("/", userRoute);
 
 //!SWAGGER BASICS
 
